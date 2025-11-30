@@ -8,9 +8,13 @@ toc: true
 theme: cosmo
 self-contained: true
 ---
+
+
 Grupo 1: Luis Alberto Juárez Potoy
 
 #Parte1
+
+
 ```{r}
 library(tidyverse)
 library(scales)
@@ -19,7 +23,11 @@ moras <- read_excel("moras.xlsx")
 
 ```
 
+
+
 #Parte2
+
+
 ```{r}
 resumen <- moras %>%
   summarise(
@@ -39,7 +47,11 @@ resumen <- moras %>%
 resumen
 ```
 
+
+
 #Parte3
+
+
 ```{r}
 mean.salario <- mean(moras$SALARIO, na.rm = TRUE)
 mean.edad <- mean(moras$EDAD, na.rm = TRUE)
@@ -58,7 +70,11 @@ moras <- moras %>%
 
 ```
 
+
+
 #Parte4
+
+
 ```{r}
 porcentajes.na <- data.frame(
   dato = names(moras),
@@ -69,7 +85,11 @@ porcentajes.na <- data.frame(
   )
 ```
 
+
+
 #Parte5
+
+
 ```{r}
 #Los unicos con valores atipicos son Salario, tipo Aseguramiento y edad, con 3,2 y 3 valores respectivamente, lo cual no es significativo dentro del total (5000), por lo tanto por eficiencia se va a imputar con media y con moda.
 
@@ -89,7 +109,11 @@ moras <- moras %>%
   )
 ```
 
+
+
 #Parte6
+
+
 ```{r}
 
 graf.cantidadporsexo <- moras %>% 
@@ -158,7 +182,11 @@ graf.cantidadpormorosidad
 
 ```
 
+
+
 #parte7
+
+
 ```{r}
 graf.porcentajemorosidad <- function(data, categoria){
   
@@ -220,7 +248,11 @@ ggplot(distribucion.aseg, aes(x = porcentaje, y = TIPO_ASEGURAMIENTO)) +
 
 ```
 
+
+
 #Parte8
+
+
 ```{r}
 
 #Se opta por crear categorias para poder graficar y analizar de mejor manera este dato, pues es un dato continuo y en un grafico de barras no se podria hacer bien. En salario se usa k para hacer referencia a miles.
@@ -285,13 +317,21 @@ ggplot(salarios.totales, aes(x = RANGO_SALARIO, y = cantidad, fill = INDICADOR_M
 
 ```
 
+
+
 #Parte9
+
+
 ```{r}
 #Es esto que se hace en R
 ```
 
 
+
+
 #Parte 10
+
+
 ```{r}
 #Los nombres de los asegurados no se logran apreciar, por lo que se pondra una abreviatura
 
