@@ -87,3 +87,70 @@ moras <- moras %>%
   )
 ```
 
+#Parte6
+```{r}
+
+graf.cantidadporsexo <- moras %>% 
+  group_by(SEXO) %>% 
+  summarise(contador = n()) %>% 
+  ggplot(aes(x = SEXO, y = contador)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Cantidad por sexo", x = "Sexo", y = "Cantidad")+
+  theme_minimal()
+
+graf.cantidadporsexo
+
+graf.cantidadporaseguramiento <- moras %>% 
+  group_by(TIPO_ASEGURAMIENTO) %>% 
+  summarise(contador = n()) %>% 
+  ggplot(aes(x = TIPO_ASEGURAMIENTO, y = contador)) +
+  coord_flip()+
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Cantidad por aseguramiento", x = "Aseguramiento", y = "Cantidad")+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 25, hjust = 1))
+
+graf.cantidadporaseguramiento
+
+graf.cantidadporsector <- moras %>% 
+  group_by(SECTOR) %>% 
+  summarise(contador = n()) %>% 
+  ggplot(aes(x = SECTOR, y = contador)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Cantidad por sector", x = "Sector", y = "Cantidad")+
+  theme_minimal()
+
+graf.cantidadporsector
+
+graf.cantidadporextranjeros<- moras %>% 
+  group_by(INDICADOR.EXTRANJERO) %>% 
+  summarise(contador = n()) %>% 
+  ggplot(aes(x = INDICADOR.EXTRANJERO, y = contador)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Cantidad por extranjeros", x = "Extranjero", y = "Cantidad")+
+  theme_minimal()
+
+graf.cantidadporsector
+
+graf.cantidadporactividad <- moras %>% 
+  group_by(INDICADOR_ACTIVO) %>% 
+  summarise(contador = n()) %>% 
+  ggplot(aes(x = INDICADOR_ACTIVO, y = contador)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Cantidad por actividad", x = "Activo", y = "Cantidad")+
+  theme_minimal()
+
+graf.cantidadporactividad
+
+graf.cantidadpormorosidad <- moras %>% 
+  group_by(INDICADOR_MOROSO) %>% 
+  summarise(contador = n()) %>% 
+  ggplot(aes(x = INDICADOR_MOROSO, y = contador)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Cantidad por morosidad", x = "Moroso", y = "Cantidad")+
+  theme_minimal()
+
+graf.cantidadpormorosidad
+
+```
+
