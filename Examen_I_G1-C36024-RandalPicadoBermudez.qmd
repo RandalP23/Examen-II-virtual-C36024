@@ -285,3 +285,38 @@ ggplot(salarios.totales, aes(x = RANGO_SALARIO, y = cantidad, fill = INDICADOR_M
 
 ```
 
+#Parte9
+```{r}
+#Es esto que se hace en R
+```
+
+
+#Parte 10
+```{r}
+#Los nombres de los asegurados no se logran apreciar, por lo que se pondra una abreviatura y se convierte a factor las varibales para que el arbol pueda leerlo bien, ya que me estaba quedando raro, no idefnticiaba bien.
+
+moras.arbol <- moras %>% 
+  mutate(
+    TIPO_ASEGURAMIENTO = case_when(
+      TIPO_ASEGURAMIENTO == "ASALARIADO" ~ "ASAL",
+      TIPO_ASEGURAMIENTO == "PENSIONADOS EN SU PROPIO SISTEMA" ~ "PENPS",
+      TIPO_ASEGURAMIENTO == "ASEGURADO VOLUNTARIO" ~ "VOL",
+      TIPO_ASEGURAMIENTO == "TRABAJADOR INDEPENDIENTE" ~ "INDEP",
+      TIPO_ASEGURAMIENTO == "CONVENIOS ESPECIALES DE TRABAJADORES INDEPENDIENTES" ~ "CONV-TI",
+      TIPO_ASEGURAMIENTO == "CONVENIOS ESPECIALES DE ASEGURADOS VOLUNTARIOS" ~ "CONV-VOL",
+      TRUE ~ "OTRO"
+    )
+  )
+
+
+#| eval: false
+library(rpart)
+library(rpart.plot)
+tree <- rpart(INDICADOR_MOROSO ~ ., data = moras.arbol)
+
+rpart.plot(
+  tree)
+
+#El árbol primero divide a las personas según su tipo de aseguramiento. En la mayoría de tipos de aseguramiento, casi todos aparecen como no morosos.Después, para los casos que quedan, el árbol revisa si la persona es extranjera. Dentro de ese grupo, las personas extranjeras tienen más probabilidad de ser morosas que las que no lo son.Luego, en otro nivel, el árbol utiliza el salario para separar aún más. En ese subgrupo, los salarios más altos se relacionan con más morosidad.En general, según este árbol, las variables que más influyen en la morosidad en este conjunto de datos son: el tipo de aseguramiento, si la persona es extranjera o no, y el salario.
+```
+
