@@ -220,3 +220,68 @@ ggplot(distribucion.aseg, aes(x = porcentaje, y = TIPO_ASEGURAMIENTO)) +
 
 ```
 
+#Parte8
+```{r}
+
+#Se opta por crear categorias para poder graficar y analizar de mejor manera este dato, pues es un dato continuo y en un grafico de barras no se podria hacer bien. En salario se usa k para hacer referencia a miles.
+
+moras <- moras %>% 
+  mutate(
+    RANGO.EDAD = case_when(
+      EDAD >= 14 & EDAD <= 24 ~ "14-24",
+      EDAD >= 25 & EDAD <= 34 ~ "25-34",
+      EDAD >= 35 & EDAD <= 44 ~ "35-44",
+      EDAD >= 45 & EDAD <= 54 ~ "45-54",
+      EDAD >= 55 & EDAD <= 64 ~ "55-64",
+      EDAD >= 65              ~ "65+",
+      TRUE ~ NA_character_
+    )
+  )
+
+moras <- moras %>% 
+   mutate(
+    RANGO_SALARIO = case_when(
+      SALARIO >= 0       & SALARIO < 200000  ~ "0-200k",
+      SALARIO >= 200000  & SALARIO < 400000  ~ "200k-400k",
+      SALARIO >= 400000  & SALARIO < 800000  ~ "400k-800k",
+      SALARIO >= 800000  & SALARIO < 1500000 ~ "800k-1.5M",
+      SALARIO >= 1500000 & SALARIO < 3000000 ~ "1.5M-3M",
+      SALARIO >= 3000000                     ~ "3M+",
+      TRUE ~ NA_character_
+    )
+   )
+
+edad.totales <- moras %>% 
+  group_by(RANGO.EDAD, INDICADOR_MOROSO) %>% 
+  summarise(cantidad = n(), .groups = "drop")
+
+
+ggplot(edad.totales, aes(x = RANGO.EDAD, y = cantidad, fill = INDICADOR_MOROSO)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Cantidad de morosos y no morosos por rango de edad", x = "Rango de edad", y = "Cantidad",
+    fill = "Moroso"
+  ) +
+  scale_fill_manual(values = c("SI" = "#B8291D", "NO" = "#309C58")) +
+  theme_minimal()
+
+#De aqui podemos ver que la mayor cantidad de no morosos son las personas entre los 25-34 y de morosos se encuentran en el rango de edad de los 35 a los 44 años, y que apartir de esta edad empiezan a decrecer, pero lo hacen tanto los morosos como los no morosos, por lo cual se podria concluir que es que hay menos personas en esos rangos de edad, 
+
+salarios.totales <- moras %>% 
+  group_by(RANGO_SALARIO, INDICADOR_MOROSO) %>% 
+  summarise(cantidad = n(), .groups = "drop")
+
+
+ggplot(salarios.totales, aes(x = RANGO_SALARIO, y = cantidad, fill = INDICADOR_MOROSO)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Cantidad de morosos y no morosos por rango salarial", x = "Rango salarial", y = "Cantidad",
+    fill = "Moroso"
+  ) +
+  scale_fill_manual(values = c("SI" = "#B8291D", "NO" = "#309C58")) +
+  theme_minimal()
+
+#De este grafico lo que podemos ver es que en las personas con salario mayor a los 3 millones no hay morosos (salario tan alto se espera un cumplimiento con las obligaciones), y en general exxiste esta relacion entre salario y morosos, entre menor salario mas cantidad de personas morosas, sin embargo igual entre mas alto el salario menos personas totales, la unica excepción de esto esta en el grupo de 0 a 200k.
+
+```
+
