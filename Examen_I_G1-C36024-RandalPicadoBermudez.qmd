@@ -13,12 +13,27 @@ Grupo 1: Luis Alberto Juárez Potoy
 #Parte1
 ```{r}
 library(tidyverse)
-library(readr)
-moras <- read_csv("moras.txt")
+library(readxl)
+moras <- read_excel("moras.xlsx")
+
 ```
 
-
+#Parte2
 ```{r}
+resumen <- moras %>%
+  summarise(
+    media.edad = mean(EDAD, na.rm = TRUE),
+    minimo.edad = min(EDAD, na.rm = TRUE),
+    maximo.edad = max(EDAD, na.rm = TRUE),
+    q1.edad = quantile(EDAD, 0.25, na.rm = TRUE),
+    q3.edad = quantile(EDAD, 0.75, na.rm = TRUE),
+    
+    media.salario = mean(SALARIO, na.rm = TRUE),
+    minimo.salario = min(SALARIO, na.rm = TRUE),
+    maximo.salario = max(SALARIO, na.rm = TRUE),
+    q1.salario = quantile(SALARIO, 0.25, na.rm = TRUE),
+    q3.salario = quantile(SALARIO, 0.75, na.rm = TRUE),
+      )
 
 ```
 
