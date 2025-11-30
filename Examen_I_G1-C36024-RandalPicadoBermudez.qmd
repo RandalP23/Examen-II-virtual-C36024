@@ -35,6 +35,7 @@ resumen <- moras %>%
     q3.salario = quantile(SALARIO, 0.75, na.rm = TRUE),
       )
 
+resumen
 ```
 
 #Parte3
@@ -151,6 +152,23 @@ graf.cantidadpormorosidad <- moras %>%
   theme_minimal()
 
 graf.cantidadpormorosidad
+
+```
+
+#parte7
+```{r}
+graf.porcentajemorosidad <- function(data, categoria){
+  data %>% 
+    group_by(.data[[categoria]]) %>% 
+    summarise(
+      cantidad = n(),
+      morosos = sum(INDICADOR_MOROSO == "SI"),
+      porcentaje = morosos / cantidad
+    ) %>% 
+    ggplot(aes(x = .data[[categoria]], y = porcentaje))+
+    geom_bar(stat = "identify", fill = darkred)+
+    labs(title = paste("% de morosos por", categoria), x = categoria, y = "Porcentaje")
+}
 
 ```
 
