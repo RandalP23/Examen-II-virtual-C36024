@@ -10,7 +10,7 @@ self-contained: true
 ---
 Grupo 1: Luis Alberto Juárez Potoy
 
-#Parte1
+# Parte1
 ```{r}
 library(tidyverse)
 library(scales)
@@ -19,7 +19,7 @@ moras <- read_excel("moras.xlsx")
 
 ```
 
-#Parte2
+# Parte2
 ```{r}
 resumen <- moras %>%
   summarise(
@@ -39,7 +39,7 @@ resumen <- moras %>%
 resumen
 ```
 
-#Parte3
+# Parte3
 ```{r}
 mean.salario <- mean(moras$SALARIO, na.rm = TRUE)
 mean.edad <- mean(moras$EDAD, na.rm = TRUE)
@@ -58,7 +58,7 @@ moras <- moras %>%
 
 ```
 
-#Parte4
+# Parte4
 ```{r}
 porcentajes.na <- data.frame(
   dato = names(moras),
@@ -69,9 +69,11 @@ porcentajes.na <- data.frame(
   )
 ```
 
-#Parte5
+# Parte5
 ```{r}
-#Los unicos con valores atipicos son Salario, tipo Aseguramiento y edad, con 3,2 y 3 valores respectivamente, lo cual no es significativo dentro del total (5000), por lo tanto por eficiencia se va a imputar con media y con moda.
+#Los unicos con valores atipicos son Salario, tipo Aseguramiento y edad, 
+#con 3,2 y 3 valores respectivamente, lo cual no es significativo dentro del total 
+#(5000), por lo tanto por eficiencia se va a imputar con media y con moda.
 
 moda.aseguramiento <- moras %>% 
   group_by(TIPO_ASEGURAMIENTO) %>% 
@@ -89,7 +91,7 @@ moras <- moras %>%
   )
 ```
 
-#Parte6
+# Parte6
 ```{r}
 
 graf.cantidadporsexo <- moras %>% 
@@ -154,11 +156,11 @@ graf.cantidadpormorosidad <- moras %>%
 
 graf.cantidadpormorosidad
 
-##La interpretacion de estas graficas es analoga al de excel, pues son los mismos graficos.
+#La interpretacion de estas graficas es analoga al de excel, pues son los mismos graficos.
 
 ```
 
-#parte7
+# parte7
 ```{r}
 graf.porcentajemorosidad <- function(data, categoria){
   
@@ -183,19 +185,28 @@ graf.porcentajemorosidad <- function(data, categoria){
 
 graf.porcentajemorosidad(moras, "SEXO")
 
-#Note que aunque hay diferencia es minima, no es ni un 1% la diferencia entre el porcentaje de hombres y mujeres morosas, lo indica que esta categoria no da mucha informacion para decidir si una persona va a ser morosa por su SEXO
+#Note que aunque hay diferencia es minima, no es ni un 1% la diferencia entre 
+#el porcentaje de hombres y mujeres morosas, lo indica que esta categoria no da 
+#mucha informacion para decidir si una persona va a ser morosa por su SEXO
 
 graf.porcentajemorosidad(moras, "INDICADOR_ACTIVO")
 
-#Note que aquí la diferencia es bastante, las personas no activan son mucho mas morosas que las activas, lo cual tiene un poco de sentido, pues es de esperar que las personas activas tiendan a cumplir mas con los cumplimientos
+#Note que aquí la diferencia es bastante, las personas no activan son mucho mas
+#morosas que las activas, lo cual tiene un poco de sentido, pues es de esperar 
+#que las personas activas tiendan a cumplir mas con los cumplimientos
 
 graf.porcentajemorosidad(moras, "INDICADOR.EXTRANJERO")
 
-#Este grafico nos muestra como las personas extranjeras tienden a ser mas morosas que las no extranjeras, las razones de esto pueden ser varias, como la estabilidad laboral, pues en muchas ocaciones los extranjeros no tienen salario o empleo fijo (en los locales tambien se da pero menos)
+#Este grafico nos muestra como las personas extranjeras tienden a ser mas morosas
+#que las no extranjeras, las razones de esto pueden ser varias, como la estabilidad
+#laboral, pues en muchas ocaciones los extranjeros no tienen salario o empleo fijo 
+#(en los locales tambien se da pero menos)
 
 graf.porcentajemorosidad(moras, "SECTOR")
 
-#El sector privado tiene una mayor cantidad de morosos (18%), lo cual se puede deber a que las personas en el sector publico suelen ser tener mejores salarios y mejor estabilidad lo cual lo llevan a cumplir mas con sus pagos.
+#El sector privado tiene una mayor cantidad de morosos (18%), lo cual se puede 
+#deber a que las personas en el sector publico suelen ser tener mejores salarios 
+#y mejor estabilidad lo cual lo llevan a cumplir mas con sus pagos.
 
 
 distribucion.aseg <- moras %>% 
@@ -216,14 +227,19 @@ ggplot(distribucion.aseg, aes(x = porcentaje, y = TIPO_ASEGURAMIENTO)) +
   ) +
   theme_minimal()
 
-#Note que el trabajadores independientes es extremadamente alto (56%) lo cual se puede deber a varias razones, como a que esta población el salario que perciben suele variar mucho dependiendo las fechas del año y diversos factores, lo cual puede llevar a que muchas veces no puedan realizar los pagos.
+#Note que el trabajadores independientes es extremadamente alto (56%) lo cual se 
+#puede deber a varias razones, como a que esta población el salario que perciben
+#suele variar mucho dependiendo las fechas del año y diversos factores, lo cual
+#puede llevar a que muchas veces no puedan realizar los pagos.
 
 ```
 
-#Parte8
+# Parte8
 ```{r}
 
-#Se opta por crear categorias para poder graficar y analizar de mejor manera este dato, pues es un dato continuo y en un grafico de barras no se podria hacer bien. En salario se usa k para hacer referencia a miles.
+#Se opta por crear categorias para poder graficar y analizar de mejor manera
+#este dato, pues es un dato continuo y en un grafico de barras no se podria 
+#hacer bien. En salario se usa k para hacer referencia a miles.
 
 moras <- moras %>% 
   mutate(
@@ -265,7 +281,11 @@ ggplot(edad.totales, aes(x = RANGO.EDAD, y = cantidad, fill = INDICADOR_MOROSO))
   scale_fill_manual(values = c("SI" = "#B8291D", "NO" = "#309C58")) +
   theme_minimal()
 
-#De aqui podemos ver que la mayor cantidad de no morosos son las personas entre los 25-34 y de morosos se encuentran en el rango de edad de los 35 a los 44 años, y que apartir de esta edad empiezan a decrecer, pero lo hacen tanto los morosos como los no morosos, por lo cual se podria concluir que es que hay menos personas en esos rangos de edad, 
+#De aqui podemos ver que la mayor cantidad de no morosos son las personas entre
+#los 25-34 y de morosos se encuentran en el rango de edad de los 35 a los 44 años, 
+#y que apartir de esta edad empiezan a decrecer, pero lo hacen tanto los morosos 
+#como los no morosos, por lo cual se podria concluir que es que hay menos personas
+#en esos rangos de edad, 
 
 salarios.totales <- moras %>% 
   group_by(RANGO_SALARIO, INDICADOR_MOROSO) %>% 
@@ -281,17 +301,22 @@ ggplot(salarios.totales, aes(x = RANGO_SALARIO, y = cantidad, fill = INDICADOR_M
   scale_fill_manual(values = c("SI" = "#B8291D", "NO" = "#309C58")) +
   theme_minimal()
 
-#De este grafico lo que podemos ver es que en las personas con salario mayor a los 3 millones no hay morosos (salario tan alto se espera un cumplimiento con las obligaciones), y en general exxiste esta relacion entre salario y morosos, entre menor salario mas cantidad de personas morosas, sin embargo igual entre mas alto el salario menos personas totales, la unica excepción de esto esta en el grupo de 0 a 200k.
+#De este grafico lo que podemos ver es que en las personas con salario mayor a
+#los 3 millones no hay morosos (salario tan alto se espera un cumplimiento con
+#las obligaciones), y en general exxiste esta relacion entre salario y morosos,
+#entre menor salario mas cantidad de personas morosas, sin embargo igual entre
+#mas alto el salario menos personas totales, la unica excepción de esto esta en 
+#el grupo de 0 a 200k.
 
 ```
 
-#Parte9
+# Parte9
 ```{r}
 #Es esto que se hace en R
 ```
 
 
-#Parte 10
+# Parte 10
 ```{r}
 #Los nombres de los asegurados no se logran apreciar, por lo que se pondra una abreviatura
 
@@ -317,6 +342,14 @@ tree <- rpart(INDICADOR_MOROSO ~ ., data = moras.arbol)
 rpart.plot(
   tree)
 
-#El árbol primero divide a las personas según su tipo de aseguramiento. En la mayoría de tipos de aseguramiento, casi todos aparecen como no morosos.Después, para los casos que quedan, el árbol revisa si la persona es extranjera. Dentro de ese grupo, las personas extranjeras tienen más probabilidad de ser morosas que las que no lo son.Luego, en otro nivel, el árbol utiliza el salario para separar aún más. En ese subgrupo, los salarios más altos se relacionan con más morosidad.En general, según este árbol, las variables que más influyen en la morosidad en este conjunto de datos son: el tipo de aseguramiento, si la persona es extranjera o no, y el salario.
+#El árbol primero divide a las personas según su tipo de aseguramiento. 
+#En la mayoría de tipos de aseguramiento, casi todos aparecen como no morosos.
+#Después, para los casos que quedan, el árbol revisa si la persona es extranjera.
+#Dentro de ese grupo, las personas extranjeras tienen más probabilidad de ser morosas 
+#que las que no lo son.Luego, en otro nivel, el árbol utiliza el salario para
+#separar aún más. En ese subgrupo, los salarios más altos se relacionan con más
+#morosidad.En general, según este árbol, las variables que más influyen en la
+#morosidad en este conjunto de datos son: el tipo de aseguramiento, si la persona
+#es extranjera o no, y el salario.
 ```
 
