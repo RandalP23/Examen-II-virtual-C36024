@@ -67,3 +67,23 @@ porcentajes.na <- data.frame(
   )
 ```
 
+#Parte5
+```{r}
+#Los unicos con valores atipicos son Salario, tipo Aseguramiento y edad, con 3,2 y 3 valores respectivamente, lo cual no es significativo dentro del total (5000), por lo tanto por eficiencia se va a imputar con media y con moda.
+
+moda.aseguramiento <- moras %>% 
+  group_by(TIPO_ASEGURAMIENTO) %>% 
+  summarise( contador = n()) %>% 
+  arrange(desc(contador)) %>% 
+  head(1)
+
+moda.aseg <- moda.aseguramiento$TIPO_ASEGURAMIENTO
+
+moras <- moras %>% 
+  mutate(
+    EDAD = if_else(is.na(EDAD), mean.edad, EDAD),
+    SALARIO = if_else(is.na(SALARIO), mean.salario, SALARIO),
+    TIPO_ASEGURAMIENTO = if_else(is.na(TIPO_ASEGURAMIENTO), moda.aseg, TIPO_ASEGURAMIENTO)
+  )
+```
+
