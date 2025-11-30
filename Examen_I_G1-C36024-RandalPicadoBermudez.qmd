@@ -3,5 +3,22 @@ title: "Examen_II_G1"
 author: "RandalPicadoBermudezC36024"
 format: pdf
 editor: visual
+date: "11-30-2025"
+toc: true
+theme: cosmo
+self-contained: true
 ---
+Grupo 1: Luis Alberto Juárez Potoy
+
+#Parte1
+```{r}
+library(tidyverse)
+library(readr)
+moras <- read_csv("moras.txt")
+```
+
+
+```{r}
+
+```
 
