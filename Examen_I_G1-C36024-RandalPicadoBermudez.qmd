@@ -37,3 +37,23 @@ resumen <- moras %>%
 
 ```
 
+#Parte3
+```{r}
+mean.salario <- mean(moras$SALARIO, na.rm = TRUE)
+mean.edad <- mean(moras$EDAD, na.rm = TRUE)
+desviacion.salario <- sd(moras$SALARIO, na.rm = TRUE)
+desviacion.edad <- sd(moras$EDAD, na.rm = TRUE)
+
+moras <- moras %>% 
+  mutate(
+    z.salario = (SALARIO - mean.salario) / desviacion.salario,
+    z.edad = (EDAD - mean.edad) / desviacion.edad
+    ) %>% 
+  mutate(
+    atatipico.salario = if_else(abs(z.salario) > 1.96, "ATIPICO", "NO ATIPICO"),
+    atipipico.edad = if_else(abs(z.edad) > 1.96, "ATIPICO", "NO ATIPICO")
+  )
+
+```
+
+#Parte4
