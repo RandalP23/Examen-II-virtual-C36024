@@ -13,6 +13,7 @@ Grupo 1: Luis Alberto Juárez Potoy
 #Parte1
 ```{r}
 library(tidyverse)
+library(scales)
 library(readxl)
 moras <- read_excel("moras.xlsx")
 
@@ -153,22 +154,69 @@ graf.cantidadpormorosidad <- moras %>%
 
 graf.cantidadpormorosidad
 
+##La interpretacion de estas graficas es analoga al de excel, pues son los mismos graficos.
+
 ```
 
 #parte7
 ```{r}
 graf.porcentajemorosidad <- function(data, categoria){
-  data %>% 
+  
+  datos <- data %>% 
     group_by(.data[[categoria]]) %>% 
     summarise(
-      cantidad = n(),
-      morosos = sum(INDICADOR_MOROSO == "SI"),
+      cantidad   = n(),
+      morosos    = sum(INDICADOR_MOROSO == "SI"),
       porcentaje = morosos / cantidad
-    ) %>% 
-    ggplot(aes(x = .data[[categoria]], y = porcentaje))+
-    geom_bar(stat = "identify", fill = darkred)+
-    labs(title = paste("% de morosos por", categoria), x = categoria, y = "Porcentaje")
+    )
+  
+  ggplot(datos, aes(x = .data[[categoria]], y = porcentaje)) +
+    geom_col(fill = "steelblue") +
+    geom_text(aes(label = percent(porcentaje, accuracy = 0.1)),
+              vjust = -0.5, size = 4) +
+    scale_y_continuous(labels = percent_format(accuracy = 1),
+                       limits = c(0, max(datos$porcentaje) * 1.15)) +
+    labs( title = paste("% de morosos por", categoria), x = categoria,y = "Porcentaje"
+    ) +
+    theme_minimal()
 }
+
+graf.porcentajemorosidad(moras, "SEXO")
+
+#Note que aunque hay diferencia es minima, no es ni un 1% la diferencia entre el porcentaje de hombres y mujeres morosas, lo indica que esta categoria no da mucha informacion para decidir si una persona va a ser morosa por su SEXO
+
+graf.porcentajemorosidad(moras, "INDICADOR_ACTIVO")
+
+#Note que aquí la diferencia es bastante, las personas no activan son mucho mas morosas que las activas, lo cual tiene un poco de sentido, pues es de esperar que las personas activas tiendan a cumplir mas con los cumplimientos
+
+graf.porcentajemorosidad(moras, "INDICADOR.EXTRANJERO")
+
+#Este grafico nos muestra como las personas extranjeras tienden a ser mas morosas que las no extranjeras, las razones de esto pueden ser varias, como la estabilidad laboral, pues en muchas ocaciones los extranjeros no tienen salario o empleo fijo (en los locales tambien se da pero menos)
+
+graf.porcentajemorosidad(moras, "SECTOR")
+
+#El sector privado tiene una mayor cantidad de morosos (18%), lo cual se puede deber a que las personas en el sector publico suelen ser tener mejores salarios y mejor estabilidad lo cual lo llevan a cumplir mas con sus pagos.
+
+
+distribucion.aseg <- moras %>% 
+  group_by(TIPO_ASEGURAMIENTO) %>% 
+  summarise(
+    cantidad = n(),
+    morosos = sum(INDICADOR_MOROSO == "SI"),
+    porcentaje = morosos / cantidad
+  )
+
+ggplot(distribucion.aseg, aes(x = porcentaje, y = TIPO_ASEGURAMIENTO)) +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = percent(porcentaje, accuracy = 0.1)),
+            hjust = -0.1, size = 4) +
+  scale_x_continuous(labels = percent_format(accuracy = 1),
+                     limits = c(0, max(distribucion.aseg$porcentaje) * 1.15)) +
+  labs(title = "% de morosos por tipo de aseguramiento",x = "Porcentaje",y = "Tipo de aseguramiento"
+  ) +
+  theme_minimal()
+
+#Note que el trabajadores independientes es extremadamente alto (56%) lo cual se puede deber a varias razones, como a que esta población el salario que perciben suele variar mucho dependiendo las fechas del año y diversos factores, lo cual puede llevar a que muchas veces no puedan realizar los pagos.
 
 ```
 
