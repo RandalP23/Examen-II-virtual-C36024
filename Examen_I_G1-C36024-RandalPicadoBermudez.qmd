@@ -46,14 +46,24 @@ desviacion.edad <- sd(moras$EDAD, na.rm = TRUE)
 
 moras <- moras %>% 
   mutate(
-    z.salario = (SALARIO - mean.salario) / desviacion.salario,
-    z.edad = (EDAD - mean.edad) / desviacion.edad
+    Z.SALARIO = (SALARIO - mean.salario) / desviacion.salario,
+    Z.EDAD = (EDAD - mean.edad) / desviacion.edad
     ) %>% 
   mutate(
-    atatipico.salario = if_else(abs(z.salario) > 1.96, "ATIPICO", "NO ATIPICO"),
-    atipipico.edad = if_else(abs(z.edad) > 1.96, "ATIPICO", "NO ATIPICO")
+    ATIPICO.SALARIO = if_else(abs(Z.SALARIO) > 1.96, "ATIPICO", "NO ATIPICO"),
+    ATIPICO.EDAD = if_else(abs(Z.EDAD) > 1.96, "ATIPICO", "NO ATIPICO")
   )
 
 ```
 
 #Parte4
+```{r}
+porcentajes.na <- data.frame(
+  dato = names(moras),
+  faltante = colSums(is.na(moras))
+) %>% 
+  mutate(
+    porcentajes.na = (faltante/5000)* 100
+  )
+```
+
