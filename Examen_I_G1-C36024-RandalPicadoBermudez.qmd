@@ -11,7 +11,7 @@ self-contained: true
 Grupo 1: Luis Alberto Juárez Potoy
 
 # Parte1
-```{r}
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
 library(tidyverse)
 library(scales)
 library(readxl)
@@ -35,8 +35,8 @@ resumen <- moras %>%
     q1.salario = quantile(SALARIO, 0.25, na.rm = TRUE),
     q3.salario = quantile(SALARIO, 0.75, na.rm = TRUE),
       )
+as.data.frame(resumen)
 
-resumen
 ```
 
 # Parte3
@@ -105,14 +105,23 @@ graf.cantidadporsexo <- moras %>%
 graf.cantidadporsexo
 
 graf.cantidadporaseguramiento <- moras %>% 
+  mutate(
+    TIPO_ASEGURAMIENTO = case_when(
+      TIPO_ASEGURAMIENTO == "ASALARIADO" ~ "ASAL",
+      TIPO_ASEGURAMIENTO == "PENSIONADOS EN SU PROPIO SISTEMA" ~ "PENPS",
+      TIPO_ASEGURAMIENTO == "ASEGURADO VOLUNTARIO" ~ "VOL",
+      TIPO_ASEGURAMIENTO == "TRABAJADOR INDEPENDIENTE" ~ "INDEP",
+      TIPO_ASEGURAMIENTO == "CONVENIOS ESPECIALES DE TRABAJADORES INDEPENDIENTES" ~ "CONV-TI",
+      TIPO_ASEGURAMIENTO == "CONVENIOS ESPECIALES DE ASEGURADOS VOLUNTARIOS" ~ "CONV-VOL",
+      TRUE ~ "OTRO"
+    )
+    )%>% 
   group_by(TIPO_ASEGURAMIENTO) %>% 
   summarise(contador = n()) %>% 
   ggplot(aes(x = TIPO_ASEGURAMIENTO, y = contador)) +
-  coord_flip()+
   geom_bar(stat = "identity", fill = "steelblue") +
   labs(title = "Cantidad por aseguramiento", x = "Aseguramiento", y = "Cantidad")+
-  theme_minimal()+
-  theme(axis.text.x = element_text(angle = 25, hjust = 1))
+  theme_minimal()
 
 graf.cantidadporaseguramiento
 
